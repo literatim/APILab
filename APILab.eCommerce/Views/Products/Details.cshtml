@@ -42,9 +42,38 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
 
+        <dt>
+            Quantity
+        </dt>
+
+        <dd>
+            <div id="quantity"></div>
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    | @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Create Order", "Index") |
 </p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script language="javascript">
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: 'http://localhost:32534/api/Inventories/@Model.ItemId',
+            success: function(data) {
+                $("#quantity")
+                   .result(data.Quantity);
+                console.log(data);
+            },
+            error: function() {
+                alert("Could not retrieve inventory data");
+            }
+        });
+    </script>
+
+}
