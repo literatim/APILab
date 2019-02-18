@@ -67,7 +67,7 @@
             url: 'http://localhost:32534/api/Inventories/@Model.ItemId',
             success: function(data) {
                 $("#quantity")
-                   .result(data.Quantity);
+                   .text(data.Quantity);
                 console.log(data);
             },
             error: function() {
