@@ -46,5 +46,10 @@ namespace APILab.eCommerce.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult Order()
+        {
+            return View();
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace APILab.Inventory.DAL
         }
 
         public DbSet<Models.Inventory> Inventories { get; set; }
+
+        public System.Data.Entity.DbSet<APILab.Inventory.Models.Order> Orders { get; set; }
     }
 }
