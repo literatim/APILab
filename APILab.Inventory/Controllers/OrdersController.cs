@@ -1,5 +1,5 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Migrations;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -25,6 +25,9 @@ namespace APILab.Inventory.Controllers
             }
 
             db.Orders.Add(order);
+
+            db.Inventories.Find(order.ItemId);
+
 
             await db.SaveChangesAsync();
 
