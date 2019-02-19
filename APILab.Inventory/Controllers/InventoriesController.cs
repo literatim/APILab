@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -46,6 +48,37 @@ namespace APILab.Inventory.Controllers
             return CreatedAtRoute("DefaultApi", new { id = inventory.Id }, inventory);
         }
 
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> PutInventory(int id, Models.Inventory request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var inventory = db.Inventories.Find(id);
+            inventory.Quantity -= request.Quantity;
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!InventoryExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {
@@ -54,6 +87,10 @@ namespace APILab.Inventory.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        private bool InventoryExists(int id)
+        {
+            return db.Inventories.Count(e => e.Id == id) > 0;
         }
     }
 }

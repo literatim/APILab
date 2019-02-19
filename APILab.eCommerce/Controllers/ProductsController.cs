@@ -1,6 +1,8 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Net;
+using System.Net.Http;
 using System.Web.Mvc;
 using APILab.eCommerce.DAL;
 using APILab.eCommerce.Models;
@@ -42,9 +44,26 @@ namespace APILab.eCommerce.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult Order()
+        public ActionResult Order(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewData["Id"] = id;
+
             return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(Models.Inventory inventory)
+        {
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("http://localhost:32534/");
+            var response = await client.PutAsJsonAsync($"api/inventories/{inventory.Id}", inventory);
+
+            return RedirectToAction("Details", new {inventory.Id });
         }
     }
 }
