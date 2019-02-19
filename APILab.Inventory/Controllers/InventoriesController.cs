@@ -7,7 +7,7 @@ using System.Web.Http.Cors;
 
 namespace APILab.Inventory.Controllers
 {
-    [EnableCors(origins: "http://localhost:32534", headers: "*", methods: "*")]
+    [EnableCors("*", "*", "*")]
     public class InventoriesController : ApiController
     {
         private InventoryDbContext db = new InventoryDbContext();

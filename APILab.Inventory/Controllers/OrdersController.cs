@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
@@ -9,7 +7,7 @@ using APILab.Inventory.Models;
 
 namespace APILab.Inventory.Controllers
 {
-    [EnableCors(origins: "http://localhost:32534", headers: "*", methods: "*")]
+    [EnableCors("*", "*", "*")]
     public class OrdersController : ApiController
     {
         private InventoryDbContext db = new InventoryDbContext();
